@@ -57,7 +57,11 @@ public class Application {
 
     private static List<String> getArg(String[] args){
         Options options = new Options();
-        options.addOption(address()).addOption(name()).addOption(hostname()).addOption(help());
+        options.addOption(address())
+                .addOption(name())
+                .addOption(hostname())
+                .addOption(metadata())
+                .addOption(help());
         List<String> argList = new ArrayList<>();
 
         try {
@@ -87,6 +91,13 @@ public class Application {
                     (cmd.hasOption("hostname")?cmd.getOptionValue("hostname"):"${HOSTNAME}"));
             argList.add("--spring.application.name="+cmd.getOptionValue('n'));
 
+            if(cmd.hasOption('m')){
+                String[] pairs = cmd.getOptionValues('m');
+                for(String s : pairs) {
+                    argList.add("--eureka.instance.metadata-map." + s);
+                }
+            }
+
 
         }catch (ParseException pe){
             System.out.println(pe.getMessage());
@@ -110,7 +121,6 @@ public class Application {
                 .desc("service name")
                 .argName("service name")
                 .hasArg()
-
                 .build();
 
     }
@@ -121,6 +131,15 @@ public class Application {
                 .desc("host name")
                 .argName("host name")
                 .hasArg()
+                .build();
+    }
+
+    public static Option metadata(){
+        return Option.builder("m")
+                .longOpt("metadata")
+                .desc("service metadata, key=value format, split by comma ")
+                .hasArg()
+                .valueSeparator(',')
                 .build();
     }
 
