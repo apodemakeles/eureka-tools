@@ -84,6 +84,8 @@ public class Application {
                 System.exit(1);
             }
 
+            System.out.println("address:" + cmd.getOptionValue('a'));
+            System.out.println("metadata:" + cmd.getOptionValue('m'));
 
             argList.add("--eureka.client.service-url.defaultZone=" + cmd.getOptionValue('a'));
             argList.add("--eureka.instance.hostname=" +
