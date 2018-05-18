@@ -11,6 +11,7 @@
     <modules>
         <module>mock-client</module>
         <module>eureka-server</module>
+        <module>zuul-router</module>
     </modules>
 
 
